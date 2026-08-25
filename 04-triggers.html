@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 ตัวกระตุ้นสัญญาณ — Redstone Circuits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark"><span class="dot"></span>REDSTONE.CIRCUITS</a>
+  <div class="nav-links">
+    <a href="index.html"><span>00</span>หน้าแรก</a>
+    <a href="01-components.html"><span>01</span>ชิ้นส่วน</a>
+    <a href="02-signal.html"><span>02</span>สัญญาณ</a>
+    <a href="03-build.html"><span>03</span>สร้างวงจร</a>
+    <a href="04-triggers.html" class="current"><span>04</span>ตัวกระตุ้น</a>
+    <a href="05-logic.html"><span>05</span>ตรรกะ</a>
+    <a href="06-pulse.html"><span>06</span>พัลส์</a>
+    <a href="07-automation.html"><span>07</span>อัตโนมัติ</a>
+    <a href="08-summary.html"><span>08</span>สรุป</a>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="page-head-inner">
+    <div class="eyebrow">บทที่ 04 / 08</div>
+    <h1 class="title">เปลี่ยนสวิตช์ให้เป็น <span class="accent">"ตัวกระตุ้น"</span> หลายแบบ</h1>
+    <p class="hero-sub">นอกจาก Lever แล้ว ยังมีอุปกรณ์อีกหลายชนิดที่ทำหน้าที่เป็นแหล่งสัญญาณได้ ความแตกต่างสำคัญอยู่ที่พฤติกรรมของสัญญาณ</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="sec-desc" style="max-width:100%; font-size:1.02rem;">บางตัวให้สัญญาณค้างจนกว่าจะปิดเอง (เหมือน Lever) บางตัวให้สัญญาณสั้นๆ แล้วดับอัตโนมัติ และบางตัวตรวจจับการกระทำของผู้เล่นโดยไม่ต้องสัมผัสโดยตรง การเลือกตัวกระตุ้นที่เหมาะสมกับสถานการณ์คือหัวใจของการออกแบบระบบอัตโนมัติที่ดี</p>
+    </div>
+    <div class="trig-list">
+      <div class="trig-item">
+        <svg class="t-icon" viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="13" stroke="#ff3b30" stroke-width="2"/><circle cx="17" cy="17" r="5" fill="#ff3b30"/></svg>
+        <div><h4>ปุ่มกด (Button)</h4><p>ส่งสัญญาณสั้นๆ ประมาณ 1 วินาที (ปุ่มไม้จะนานกว่าปุ่มหิน) แล้วดับเองโดยอัตโนมัติโดยไม่ต้องกดซ้ำ เหมาะสำหรับการกระตุ้นครั้งเดียวที่ไม่ต้องการให้สัญญาณค้าง เช่น เปิดประตูชั่วคราวแล้วให้มันปิดเองหลังจากนั้น หรือยิงดอกไม้ไฟ</p></div>
+      </div>
+      <div class="trig-item">
+        <svg class="t-icon" viewBox="0 0 34 34" fill="none"><rect x="4" y="14" width="26" height="8" rx="2" stroke="#ff3b30" stroke-width="2"/></svg>
+        <div><h4>แผ่นกด (Pressure Plate)</h4><p>เปิดสัญญาณโดยอัตโนมัติเมื่อมีผู้เล่น สัตว์ หรือแม้แต่ไอเท็มที่ตกลงมาทับอยู่ด้านบน และดับเองทันทีเมื่อไม่มีอะไรกดทับแล้ว ต่างจากปุ่มกดตรงที่ไม่ต้องให้ผู้เล่นมีปฏิสัมพันธ์โดยตรง จึงเหมาะกับประตูอัตโนมัติหรือระบบตรวจจับการเข้า-ออกพื้นที่</p></div>
+      </div>
+      <div class="trig-item">
+        <svg class="t-icon" viewBox="0 0 34 34" fill="none"><line x1="6" y1="6" x2="28" y2="28" stroke="#ff3b30" stroke-width="2"/><circle cx="6" cy="6" r="3" fill="#ff3b30"/><circle cx="28" cy="28" r="3" fill="#ff3b30"/></svg>
+        <div><h4>Tripwire Hook</h4><p>ต้องใช้คู่กับเส้นด้าย (String) ที่ขึงระหว่างตะขอสองตัว เมื่อผู้เล่นหรือสิ่งมีชีวิตเดินตัดผ่านเส้นด้าย ระบบจะส่งสัญญาณออกมาโดยที่ไม่ต้องสัมผัสตัวอุปกรณ์เลย เหมาะกับการทำกับดักที่ซ่อนได้แนบเนียน หรือเซนเซอร์เฝ้าระวังทางเดินที่มองไม่เห็นสวิตช์ชัดเจน</p></div>
+      </div>
+    </div>
+
+    <div class="explain-block" style="margin-top:28px;">
+      <h3>เลือกตัวกระตุ้นยังไงให้เหมาะกับงาน</h3>
+      <p>หลักคิดง่ายๆ คือถามตัวเองสองคำถาม: <b>"ต้องการสัญญาณค้างหรือสัญญาณสั้น?"</b> และ <b>"ต้องการให้ผู้เล่นตั้งใจกดหรือแค่เดินผ่าน?"</b></p>
+      <p>ถ้าต้องการสถานะเปิด/ปิดค้างไว้จนกว่าจะสั่งเปลี่ยนเอง ให้ใช้ <code>Lever</code> ถ้าต้องการกระตุ้นครั้งเดียวแล้วรีเซ็ตเอง ให้ใช้ <code>Button</code> ถ้าต้องการให้ระบบตรวจจับการเข้า-ออกโดยอัตโนมัติแบบเปิดเผย ให้ใช้ <code>Pressure Plate</code> และถ้าต้องการซ่อนกลไกไม่ให้เห็นชัด ให้ใช้ <code>Tripwire Hook</code> — ตัวกระตุ้นทั้งหมดนี้ให้ผลลัพธ์เป็นสัญญาณ 0 หรือ 15 เหมือนกัน ต่างกันแค่ "จังหวะ" และ "วิธีกระตุ้น" เท่านั้น</p>
+    </div>
+  </div>
+</section>
+
+<div class="pagination">
+  <a href="03-build.html" class="page-link prev"><div class="pl-dir">ก่อนหน้า</div><div class="pl-title">03 — ขั้นตอนสร้างวงจร</div></a>
+  <a href="05-logic.html" class="page-link next"><div class="pl-dir">ถัดไป</div><div class="pl-title">05 — Logic Gate</div></a>
+</div>
+
+<footer>
+  <p>REDSTONE BASICS — MINECRAFT JAVA EDITION</p>
+</footer>
+
+</body>
+</html>

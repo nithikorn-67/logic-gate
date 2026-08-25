@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>08 สรุป — Redstone Circuits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark"><span class="dot"></span>REDSTONE.CIRCUITS</a>
+  <div class="nav-links">
+    <a href="index.html"><span>00</span>หน้าแรก</a>
+    <a href="01-components.html"><span>01</span>ชิ้นส่วน</a>
+    <a href="02-signal.html"><span>02</span>สัญญาณ</a>
+    <a href="03-build.html"><span>03</span>สร้างวงจร</a>
+    <a href="04-triggers.html"><span>04</span>ตัวกระตุ้น</a>
+    <a href="05-logic.html"><span>05</span>ตรรกะ</a>
+    <a href="06-pulse.html"><span>06</span>พัลส์</a>
+    <a href="07-automation.html"><span>07</span>อัตโนมัติ</a>
+    <a href="08-summary.html" class="current"><span>08</span>สรุป</a>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="page-head-inner">
+    <div class="eyebrow">บทที่ 08 / 08 — บทสุดท้าย</div>
+    <h1 class="title">สรุปและ<span class="accent">ลงมือสร้างเลย!</span></h1>
+    <p class="hero-sub">ทบทวนทุกหัวข้อที่ผ่านมาในหน้าเดียว ก่อนเริ่มลงมือสร้างโปรเจกต์ของตัวเอง</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sum-panel">
+      <div class="sum-row"><div class="sum-tag">01 พื้นฐาน</div><div class="sum-content"><b>Lever → Redstone Dust → Redstone Lamp</b><span>วงจรเปิด/ปิดไฟระยะไกลแบบง่ายที่สุด</span></div></div>
+      <div class="sum-row"><div class="sum-tag">02 ขยายระยะ</div><div class="sum-content"><b>ใช้ Repeater ส่งสัญญาณให้ไกลขึ้น</b><span>วางทุกๆ 15 บล็อก เพื่อขยายสัญญาณที่กำลังอ่อนลง</span></div></div>
+      <div class="sum-row"><div class="sum-tag">03 สร้างวงจร</div><div class="sum-content"><b>ทดสอบทีละขั้นตอน</b><span>เริ่มง่าย ทดสอบก่อนเพิ่มความซับซ้อน ช่วยหาจุดผิดพลาดได้ไว</span></div></div>
+      <div class="sum-row"><div class="sum-tag">04 ตัวกระตุ้น</div><div class="sum-content"><b>Button / Pressure Plate / Tripwire</b><span>เลือกให้เหมาะกับพฤติกรรมสัญญาณที่ต้องการ</span></div></div>
+      <div class="sum-row"><div class="sum-tag">05 ตรรกะ</div><div class="sum-content"><b>ประยุกต์ AND / OR / NOT Gate</b><span>สร้างเงื่อนไขให้วงจรตัดสินใจได้ซับซ้อนขึ้น</span></div></div>
+      <div class="sum-row"><div class="sum-tag">06 จังหวะ</div><div class="sum-content"><b>สร้างพัลส์และ Clock Circuit</b><span>ควบคุมจังหวะการทำงานของระบบให้แม่นยำ</span></div></div>
+      <div class="sum-row"><div class="sum-tag">07 อัตโนมัติ</div><div class="sum-content"><b>รวมทุกอย่างเข้าเป็นระบบจริง</b><span>คิดแบบ Cause-Effect แล้วประกอบชิ้นส่วนจากทุกบทเข้าด้วยกัน</span></div></div>
+    </div>
+    <div class="tip-box">
+      <b>💡 เคล็ดลับ</b>
+      <p>เริ่มจากวงจรง่ายๆ ก่อน ทดสอบทีละขั้นตอน แล้วค่อยต่อยอดเป็นโปรเจกต์ของตัวเอง — ทุกสิ่งที่ยิ่งใหญ่เริ่มจากก้าวแรก!</p>
+    </div>
+
+    <div class="explain-block" style="margin-top:28px;">
+      <h3>อยากทบทวนหัวข้อไหนต่อ?</h3>
+      <p>ถ้าจำหลักการ Logic Gate ไม่ค่อยแม่น แนะนำกลับไปอ่านบทที่ 05 อีกรอบ เพราะเป็นบทที่มักใช้ในการต่อยอดโปรเจกต์ใหญ่มากที่สุด หรือถ้าลืมว่า Repeater ทำหน้าที่อะไรบ้าง กลับไปที่บทที่ 02 ได้เลย</p>
+    </div>
+
+    <div class="toc-grid" style="margin-top:16px;">
+      <a href="01-components.html" class="toc-card"><span class="toc-num">01</span><div><h4>ชิ้นส่วนหลัก</h4><p>ทบทวน Lever, Dust, Lamp</p></div></a>
+      <a href="05-logic.html" class="toc-card"><span class="toc-num">05</span><div><h4>Logic Gate</h4><p>ทบทวน AND / OR / NOT</p></div></a>
+    </div>
+  </div>
+</section>
+
+<div class="pagination">
+  <a href="07-automation.html" class="page-link prev"><div class="pl-dir">ก่อนหน้า</div><div class="pl-title">07 — ต่อยอดสู่ระบบอัตโนมัติ</div></a>
+  <a href="index.html" class="page-link next"><div class="pl-dir">กลับไปที่</div><div class="pl-title">หน้าแรก</div></a>
+</div>
+
+<footer>
+  <p>REDSTONE BASICS — MINECRAFT JAVA EDITION</p>
+</footer>
+
+</body>
+</html>

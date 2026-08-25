@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02 ระยะสัญญาณ — Redstone Circuits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark"><span class="dot"></span>REDSTONE.CIRCUITS</a>
+  <div class="nav-links">
+    <a href="index.html"><span>00</span>หน้าแรก</a>
+    <a href="01-components.html"><span>01</span>ชิ้นส่วน</a>
+    <a href="02-signal.html" class="current"><span>02</span>สัญญาณ</a>
+    <a href="03-build.html"><span>03</span>สร้างวงจร</a>
+    <a href="04-triggers.html"><span>04</span>ตัวกระตุ้น</a>
+    <a href="05-logic.html"><span>05</span>ตรรกะ</a>
+    <a href="06-pulse.html"><span>06</span>พัลส์</a>
+    <a href="07-automation.html"><span>07</span>อัตโนมัติ</a>
+    <a href="08-summary.html"><span>08</span>สรุป</a>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="page-head-inner">
+    <div class="eyebrow">บทที่ 02 / 08</div>
+    <h1 class="title">ทำให้สัญญาณ <span class="accent">"ไปได้ไกลขึ้น"</span></h1>
+    <p class="hero-sub">Redstone Dust ส่งสัญญาณได้สูงสุด 15 บล็อกเท่านั้น เพราะทุกครั้งที่สัญญาณเดินทางผ่านผงเรดสโตน 1 ก้อน ค่าความแรงจะลดลง 1 หน่วยเสมอ</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="sec-desc" style="max-width:100%; font-size:1.02rem;">ค่าความแรงเริ่มจาก 15 → 14 → 13 → ... → 0 เมื่อค่าตกถึง 0 หลอดไฟหรืออุปกรณ์ปลายทางจะไม่ได้รับสัญญาณอีกต่อไป หากต้องการส่งให้ไกลกว่านั้น ต้องใช้ <b style="color:var(--text)">Repeater</b> ซึ่งทำหน้าที่ "รีเซ็ต" ค่าสัญญาณกลับไปเป็น 15 เต็มอีกครั้ง พร้อมกำหนดทิศทางการไหลของสัญญาณให้ไปทางเดียวเท่านั้น (สัญญาณจะไหลย้อนกลับผ่าน Repeater ไม่ได้) ลองกดปุ่มด้านล่างเพื่อดูความแตกต่างแบบเห็นภาพ</p>
+    </div>
+
+    <div class="demo-panel">
+      <div class="demo-toggle">
+        <button class="toggle-btn active" data-mode="off" id="btnOff">ไม่มี Repeater</button>
+        <button class="toggle-btn" data-mode="on" id="btnOn">มี Repeater</button>
+      </div>
+      <div class="demo-svg-wrap">
+        <svg id="decaySvg" viewBox="0 0 900 200">
+          <line x1="40" y1="150" x2="860" y2="150" stroke="#2a2e38" stroke-width="1"/>
+          <g id="ticks"></g>
+          <g id="wireSegments"></g>
+          <rect x="20" y="120" width="24" height="24" rx="3" fill="none" stroke="#8b909c" stroke-width="2"/>
+          <text x="32" y="112" fill="#8b909c" font-family="JetBrains Mono" font-size="11" text-anchor="middle">ต้นทาง</text>
+          <g id="repeaterMark" style="display:none;">
+            <rect x="418" y="132" width="14" height="14" fill="#ffb84d"/>
+            <text x="425" y="122" fill="#ffb84d" font-family="JetBrains Mono" font-size="10" text-anchor="middle">Repeater</text>
+          </g>
+          <circle id="lampCircle" cx="850" cy="132" r="12" fill="#3a1613" stroke="#5c1a15" stroke-width="2"/>
+          <text x="850" y="112" fill="#8b909c" font-family="JetBrains Mono" font-size="11" text-anchor="middle">หลอดไฟ</text>
+        </svg>
+      </div>
+      <div class="demo-legend">
+        <div class="lg-item"><span class="swatch" style="background:#ff3b30;"></span>สัญญาณเต็มกำลัง</div>
+        <div class="lg-item"><span class="swatch" style="background:#5c1a15;"></span>สัญญาณอ่อนลง / ดับ</div>
+        <div class="lg-item"><span class="swatch" style="background:#ffb84d;"></span>Repeater (ตัวขยายสัญญาณ)</div>
+      </div>
+
+      <div class="callout-row">
+        <div class="callout warn"><b>⚠ ปัญหา</b>สัญญาณอ่อนลงทุกบล็อก และหายไปหลังบล็อกที่ 15 หลอดไฟที่ปลายทางจะไม่ติด</div>
+        <div class="callout ok"><b>✅ วิธีแก้</b>วาง Repeater ทุกๆ 15 บล็อก เพื่อขยายสัญญาณให้เดินทางต่อไปได้ไกลขึ้น</div>
+      </div>
+    </div>
+
+    <div class="explain-block" style="margin-top:28px;">
+      <h3>Repeater ไม่ได้แค่ขยายสัญญาณ</h3>
+      <p>นอกจากขยายระยะแล้ว Repeater ยังมีอีกหน้าที่ที่สำคัญไม่แพ้กัน คือการ <b>หน่วงเวลา (delay)</b> — คลิกที่ตัว Repeater ในเกมสามารถปรับได้ 4 ระดับ ตั้งแต่ 1 ถึง 4 redstone tick ทำให้ควบคุมจังหวะการมาถึงของสัญญาณได้ ซึ่งเป็นพื้นฐานสำคัญของวงจรจับเวลาที่จะพูดถึงในบทที่ 06 "พัลส์"</p>
+      <p>อีกคุณสมบัติหนึ่งที่มักถูกมองข้ามคือ Repeater เป็น <b>ไดโอด (diode)</b> ในตัว — สัญญาณไหลผ่านได้ทิศทางเดียวเท่านั้น ทำให้เราสามารถใช้มันควบคุมไม่ให้สัญญาณไหลย้อนกลับเข้าไปรบกวนวงจรส่วนอื่น ซึ่งเป็นเทคนิคสำคัญเมื่อวงจรเริ่มมีหลายเส้นทางเชื่อมกัน</p>
+    </div>
+  </div>
+</section>
+
+<div class="pagination">
+  <a href="01-components.html" class="page-link prev"><div class="pl-dir">ก่อนหน้า</div><div class="pl-title">01 — ชิ้นส่วนหลัก</div></a>
+  <a href="03-build.html" class="page-link next"><div class="pl-dir">ถัดไป</div><div class="pl-title">03 — ขั้นตอนสร้างวงจร</div></a>
+</div>
+
+<footer>
+  <p>REDSTONE BASICS — MINECRAFT JAVA EDITION</p>
+</footer>
+
+<script>
+(function(){
+  const NUM_BLOCKS = 20;
+  const startX = 44, endX = 850;
+  const step = (endX - startX) / NUM_BLOCKS;
+  const ticksG = document.getElementById('ticks');
+  const wireG = document.getElementById('wireSegments');
+  const repeaterMark = document.getElementById('repeaterMark');
+  const lampCircle = document.getElementById('lampCircle');
+  const btnOff = document.getElementById('btnOff');
+  const btnOn = document.getElementById('btnOn');
+
+  for(let i=0;i<=NUM_BLOCKS;i++){
+    const x = startX + i*step;
+    const tick = document.createElementNS('http://www.w3.org/2000/svg','line');
+    tick.setAttribute('x1', x); tick.setAttribute('x2', x);
+    tick.setAttribute('y1', 146); tick.setAttribute('y2', 154);
+    tick.setAttribute('stroke', '#2a2e38'); tick.setAttribute('stroke-width', 1);
+    ticksG.appendChild(tick);
+    if(i % 5 === 0){
+      const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+      label.setAttribute('x', x); label.setAttribute('y', 168);
+      label.setAttribute('fill', '#5c6170'); label.setAttribute('font-family','JetBrains Mono');
+      label.setAttribute('font-size','10'); label.setAttribute('text-anchor','middle');
+      label.textContent = i;
+      ticksG.appendChild(label);
+    }
+  }
+
+  function redForStrength(s){
+    if(s <= 0) return '#3a1613';
+    const t = s/15;
+    const r = Math.round(90 + t*165);
+    const g = Math.round(22 + t*36);
+    const b = Math.round(19 + t*18);
+    return `rgb(${r},${g},${b})`;
+  }
+
+  function render(mode){
+    wireG.innerHTML = '';
+    let repeaterIndex = 15;
+    let lampLit = false;
+
+    for(let i=0;i<NUM_BLOCKS;i++){
+      const x1 = startX + i*step;
+      const x2 = startX + (i+1)*step;
+      let strength;
+      if(mode === 'off'){
+        strength = Math.max(0, 15 - i);
+      } else {
+        if(i < repeaterIndex){
+          strength = Math.max(0, 15 - i);
+        } else {
+          strength = Math.max(0, 15 - (i - repeaterIndex));
+        }
+      }
+      const seg = document.createElementNS('http://www.w3.org/2000/svg','line');
+      seg.setAttribute('x1', x1); seg.setAttribute('x2', x2);
+      seg.setAttribute('y1', 132); seg.setAttribute('y2', 132);
+      seg.setAttribute('stroke', redForStrength(strength));
+      seg.setAttribute('stroke-width', 5);
+      seg.setAttribute('stroke-linecap','round');
+      wireG.appendChild(seg);
+    }
+
+    if(mode === 'on'){
+      repeaterMark.style.display = 'block';
+      lampLit = true;
+    } else {
+      repeaterMark.style.display = 'none';
+      lampLit = false;
+    }
+
+    lampCircle.setAttribute('fill', lampLit ? '#ffb84d' : '#3a1613');
+    lampCircle.setAttribute('stroke', lampLit ? '#ffb84d' : '#5c1a15');
+    lampCircle.style.filter = lampLit ? 'drop-shadow(0 0 10px #ffb84d)' : 'none';
+  }
+
+  function setMode(mode){
+    render(mode);
+    btnOff.classList.toggle('active', mode==='off');
+    btnOn.classList.toggle('active', mode==='on');
+  }
+
+  btnOff.addEventListener('click', ()=>setMode('off'));
+  btnOn.addEventListener('click', ()=>setMode('on'));
+
+  setMode('off');
+})();
+</script>
+
+</body>
+</html>

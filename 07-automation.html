@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>07 ต่อยอดสู่ระบบอัตโนมัติ — Redstone Circuits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark"><span class="dot"></span>REDSTONE.CIRCUITS</a>
+  <div class="nav-links">
+    <a href="index.html"><span>00</span>หน้าแรก</a>
+    <a href="01-components.html"><span>01</span>ชิ้นส่วน</a>
+    <a href="02-signal.html"><span>02</span>สัญญาณ</a>
+    <a href="03-build.html"><span>03</span>สร้างวงจร</a>
+    <a href="04-triggers.html"><span>04</span>ตัวกระตุ้น</a>
+    <a href="05-logic.html"><span>05</span>ตรรกะ</a>
+    <a href="06-pulse.html"><span>06</span>พัลส์</a>
+    <a href="07-automation.html" class="current"><span>07</span>อัตโนมัติ</a>
+    <a href="08-summary.html"><span>08</span>สรุป</a>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="page-head-inner">
+    <div class="eyebrow">บทที่ 07 / 08</div>
+    <h1 class="title">เชื่อมสู่เครื่องใช้งาน: <span class="accent">อัตโนมัติ &amp; ไดนามิก</span></h1>
+    <p class="hero-sub">เมื่อเข้าใจพื้นฐานแล้ว ขั้นต่อไปคือการนำวงจรไปสร้างระบบที่ตอบสนองต่อเหตุการณ์และทำงานต่อเนื่องได้อย่างอัตโนมัติ</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="auto-grid">
+      <div class="auto-card"><span class="arrow">→</span><h4>ตั้ง Cause-Effect ให้ชัดเจน</h4><p>เช่น กดปุ่ม → ประตูปิด, เดินผ่าน → กับดักทำงาน กำหนดให้ชัดก่อนเริ่มวางบล็อกจริง จะช่วยให้เลือกตัวกระตุ้นและเกตที่ถูกต้องได้ตั้งแต่แรก</p></div>
+      <div class="auto-card"><span class="arrow">→</span><h4>สร้างโปรเจกต์เล็ก</h4><p>ประตูอัตโนมัติ, ฟาร์มอัตโนมัติ, ระบบแสงสว่างในบ้าน — เลือกโปรเจกต์ที่ใช้แค่ 2-3 อุปกรณ์ที่เรียนมาก่อน แล้วค่อยขยาย</p></div>
+      <div class="auto-card"><span class="arrow">→</span><h4>ต่อยอดเป็นระบบใหญ่</h4><p>เชื่อมหลายวงจรเข้าด้วยกันให้ทำงานประสานกัน เช่น ระบบเดียวที่ควบคุมทั้งไฟ ประตู และกับดักในบ้านหลังเดียว</p></div>
+    </div>
+
+    <div class="explain-block" style="margin-top:36px;">
+      <h3>วิธีคิดแบบ Cause-Effect ก่อนลงมือสร้าง</h3>
+      <p>ก่อนวางอุปกรณ์ใดๆ ในเกม ให้เขียนเงื่อนไขออกมาเป็นประโยคง่ายๆ ก่อนเสมอ เช่น <code>"เมื่อผู้เล่นเดินผ่านแผ่นกด (cause) → ประตูเหล็กเปิดเป็นเวลา 5 วินาทีแล้วปิดเอง (effect)"</code> จากประโยคนี้เราจะรู้ทันทีว่าต้องใช้ Pressure Plate เป็นตัวกระตุ้น และต้องใช้กลไกแบบพัลส์ (ไม่ใช่สัญญาณค้าง) เพื่อให้ประตูปิดเองได้ — การฝึกคิดแบบนี้ทำให้เลือกอุปกรณ์จากบทที่ 01-06 ได้ตรงจุดโดยไม่ต้องลองผิดลองถูก</p>
+    </div>
+
+    <div class="explain-block">
+      <h3>ตัวอย่างระบบที่ประกอบจากหลายบทที่ผ่านมา</h3>
+      <p><b>ประตูอัตโนมัติ:</b> ใช้ Pressure Plate (บทที่ 04) เป็นตัวกระตุ้น ส่งผ่าน Redstone Dust และ Repeater หากระยะไกล (บทที่ 02) เข้าสู่ Piston ที่ดันบล็อกประตูออก และอาจเพิ่ม Redstone Torch เป็นตัวหน่วงเพื่อให้ประตูปิดเองหลังจากนั้นไม่กี่วินาที (หลักการพัลส์จากบทที่ 06)</p>
+      <p><b>ระบบไฟบ้านอัตโนมัติ:</b> ใช้ตัวตรวจจับเวลากลางคืน (Daylight Sensor ต่อกับ NOT Gate จากบทที่ 05) เพื่อให้ไฟติดอัตโนมัติเฉพาะตอนกลางคืน โดยไม่ต้องมีใครสับสวิตช์เอง</p>
+      <p>จะเห็นว่าโปรเจกต์จริงแทบทุกชิ้นคือการนำความรู้จากหลายบทมาประกอบกัน — ไม่มีบทไหนที่ "จบแล้วจบเลย" แต่ทุกบทเป็นชิ้นส่วนที่ใช้ร่วมกันได้เสมอ</p>
+    </div>
+  </div>
+</section>
+
+<div class="pagination">
+  <a href="06-pulse.html" class="page-link prev"><div class="pl-dir">ก่อนหน้า</div><div class="pl-title">06 — พัลส์และจังหวะเวลา</div></a>
+  <a href="08-summary.html" class="page-link next"><div class="pl-dir">ถัดไป</div><div class="pl-title">08 — สรุปทั้งหมด</div></a>
+</div>
+
+<footer>
+  <p>REDSTONE BASICS — MINECRAFT JAVA EDITION</p>
+</footer>
+
+</body>
+</html>

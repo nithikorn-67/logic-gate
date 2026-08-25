@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>วงจร Redstone ง่ายๆ ใน Minecraft Java Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark"><span class="dot"></span>REDSTONE.CIRCUITS</a>
+  <div class="nav-links">
+    <a href="index.html" class="current"><span>00</span>หน้าแรก</a>
+    <a href="01-components.html"><span>01</span>ชิ้นส่วน</a>
+    <a href="02-signal.html"><span>02</span>สัญญาณ</a>
+    <a href="03-build.html"><span>03</span>สร้างวงจร</a>
+    <a href="04-triggers.html"><span>04</span>ตัวกระตุ้น</a>
+    <a href="05-logic.html"><span>05</span>ตรรกะ</a>
+    <a href="06-pulse.html"><span>06</span>พัลส์</a>
+    <a href="07-automation.html"><span>07</span>อัตโนมัติ</a>
+    <a href="08-summary.html"><span>08</span>สรุป</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">MINECRAFT JAVA EDITION — REDSTONE BASICS</div>
+    <h1 class="title big">วงจร <span class="accent">Redstone</span><br>ง่ายๆ ที่ทุกคนสร้างได้</h1>
+    <p class="hero-sub">เรียนรู้การสร้างวงจร Redstone เบื้องต้น ตั้งแต่สวิตช์ไปจนถึงหลอดไฟ พร้อมต่อยอดสู่ระบบอัตโนมัติและตรรกะขั้นสูง — เนื้อหาแบ่งเป็น 8 บท อ่านทีละหน้าตามลำดับ หรือข้ามไปหัวข้อที่สนใจได้เลย</p>
+    <div class="hero-cta">
+      <a href="01-components.html" class="btn btn-solid">เริ่มบทที่ 01 →</a>
+      <a href="05-logic.html" class="btn btn-ghost">ไปที่ Logic Gate</a>
+    </div>
+  </div>
+  <div class="hero-wire">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <path class="wire-path" d="M0,220 L140,220 L140,160 L340,160 L340,240 L560,240 L560,120 L780,120 L780,200 L980,200 L980,140 L1200,140" />
+      <circle class="pulse-dot" r="5" fill="#ff3b30">
+        <animateMotion dur="6s" repeatCount="indefinite"
+          path="M0,220 L140,220 L140,160 L340,160 L340,240 L560,240 L560,120 L780,120 L780,200 L980,200 L980,140 L1200,140"/>
+      </circle>
+      <circle class="pulse-dot" r="5" fill="#ff3b30" opacity="0.6">
+        <animateMotion dur="6s" begin="2s" repeatCount="indefinite"
+          path="M0,220 L140,220 L140,160 L340,160 L340,240 L560,240 L560,120 L780,120 L780,200 L980,200 L980,140 L1200,140"/>
+      </circle>
+      <circle class="pulse-dot" r="5" fill="#ff3b30" opacity="0.3">
+        <animateMotion dur="6s" begin="4s" repeatCount="indefinite"
+          path="M0,220 L140,220 L140,160 L340,160 L340,240 L560,240 L560,120 L780,120 L780,200 L980,200 L980,140 L1200,140"/>
+      </circle>
+    </svg>
+  </div>
+</header>
+
+<!-- GOAL -->
+<section id="goal">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">// เป้าหมายของบทเรียน</span>
+      <h2>"เปิด/ปิดไฟจากระยะไกล"</h2>
+      <p class="sec-desc">โจทย์เริ่มต้นของเราคือการทำให้หลอดไฟติดและดับได้ โดยที่สัญญาณควบคุมมาจากสวิตช์ที่อยู่ห่างออกไป — เหมือนสวิตช์ไฟจริงในบ้านนั่นเอง เนื้อหาทั้งหมดถูกแบ่งเป็นบทย่อยด้านล่าง ไล่ตั้งแต่พื้นฐานไปจนถึงระบบอัตโนมัติขั้นสูง</p>
+    </div>
+    <div class="goal-grid">
+      <div class="goal-card"><div class="icn">🎯 โจทย์</div><h4>ควบคุมไฟจากระยะไกล</h4><p>ผู้เล่นกดสวิตช์ที่จุดหนึ่ง แล้วให้ผลลัพธ์เกิดขึ้นในอีกจุดหนึ่ง</p></div>
+      <div class="goal-card"><div class="icn">⚡ สัญญาณ</div><h4>ส่งผ่าน Redstone</h4><p>Redstone Dust ทำหน้าที่เป็นสายไฟที่นำสัญญาณเดินทาง</p></div>
+      <div class="goal-card"><div class="icn">💡 ผลลัพธ์</div><h4>หลอดติด/ดับตามสวิตช์</h4><p>Redstone Lamp แสดงผลลัพธ์ปลายทางของวงจร</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TABLE OF CONTENTS -->
+<section id="toc">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">// สารบัญ</span>
+      <h2>เลือกบทที่อยากอ่าน</h2>
+      <p class="sec-desc">แนะนำให้อ่านตามลำดับ 01 → 08 ถ้าเป็นครั้งแรก แต่ถ้าเข้าใจพื้นฐานอยู่แล้ว สามารถข้ามไปหัวข้อที่สนใจได้ทันที</p>
+    </div>
+    <div class="toc-grid">
+      <a href="01-components.html" class="toc-card"><span class="toc-num">01</span><div><h4>ชิ้นส่วนหลัก</h4><p>Lever, Redstone Dust, Redstone Lamp — สามส่วนพื้นฐานที่ประกอบเป็นทุกวงจร</p></div></a>
+      <a href="02-signal.html" class="toc-card"><span class="toc-num">02</span><div><h4>ระยะสัญญาณ</h4><p>ทำไมสัญญาณไปได้แค่ 15 บล็อก และวิธีขยายระยะด้วย Repeater (มีดีโม่โต้ตอบได้)</p></div></a>
+      <a href="03-build.html" class="toc-card"><span class="toc-num">03</span><div><h4>ขั้นตอนสร้างวงจร</h4><p>ลำดับการวางอุปกรณ์และทดสอบทีละขั้น ตั้งแต่วงจรง่ายสุดจนถึงแตกไฟหลายดวง</p></div></a>
+      <a href="04-triggers.html" class="toc-card"><span class="toc-num">04</span><div><h4>ตัวกระตุ้นสัญญาณ</h4><p>Button, Pressure Plate, Tripwire Hook — ทางเลือกอื่นนอกจาก Lever</p></div></a>
+      <a href="05-logic.html" class="toc-card"><span class="toc-num">05</span><div><h4>Logic Gate</h4><p>AND / OR / NOT — นำหลักตรรกะดิจิทัลมาสร้างวงจรที่มีเงื่อนไข พร้อมอธิบายวิธีสร้างจริงในเกม</p></div></a>
+      <a href="06-pulse.html" class="toc-card"><span class="toc-num">06</span><div><h4>พัลส์และจังหวะเวลา</h4><p>สร้างสัญญาณสั้นๆ และวงจรนาฬิกา (Clock Circuit) เพื่อควบคุมจังหวะ</p></div></a>
+      <a href="07-automation.html" class="toc-card"><span class="toc-num">07</span><div><h4>ต่อยอดสู่ระบบอัตโนมัติ</h4><p>นำวงจรพื้นฐานไปประกอบเป็นโปรเจกต์จริง เช่น ประตูอัตโนมัติ ฟาร์ม</p></div></a>
+      <a href="08-summary.html" class="toc-card"><span class="toc-num">08</span><div><h4>สรุปทั้งหมด</h4><p>ทบทวนทุกหัวข้อในหน้าเดียว พร้อมเคล็ดลับก่อนเริ่มลงมือสร้างจริง</p></div></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>REDSTONE BASICS — MINECRAFT JAVA EDITION</p>
+</footer>
+
+</body>
+</html>

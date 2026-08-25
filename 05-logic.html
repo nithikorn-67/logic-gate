@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>05 Logic Gate — Redstone Circuits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark"><span class="dot"></span>REDSTONE.CIRCUITS</a>
+  <div class="nav-links">
+    <a href="index.html"><span>00</span>หน้าแรก</a>
+    <a href="01-components.html"><span>01</span>ชิ้นส่วน</a>
+    <a href="02-signal.html"><span>02</span>สัญญาณ</a>
+    <a href="03-build.html"><span>03</span>สร้างวงจร</a>
+    <a href="04-triggers.html"><span>04</span>ตัวกระตุ้น</a>
+    <a href="05-logic.html" class="current"><span>05</span>ตรรกะ</a>
+    <a href="06-pulse.html"><span>06</span>พัลส์</a>
+    <a href="07-automation.html"><span>07</span>อัตโนมัติ</a>
+    <a href="08-summary.html"><span>08</span>สรุป</a>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="page-head-inner">
+    <div class="eyebrow">บทที่ 05 / 08</div>
+    <h1 class="title">จาก "ไฟติดดับ" สู่ <span class="accent">"เหตุผลแบบตรรกะ"</span></h1>
+    <p class="hero-sub">นำแนวคิด Logic Gate จากวิชาวงจรดิจิทัลมาประยุกต์กับ Redstone เพื่อสร้างวงจรที่มีเงื่อนไขซับซ้อนได้</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+
+    <div class="explain-block">
+      <h3>ทำไมเราถึงต้องการ Logic Gate</h3>
+      <p>วงจรที่ผ่านมาในบทก่อนๆ ทั้งหมดตอบคำถามแค่ "มีสัญญาณหรือไม่มี" — กดสวิตช์แล้วหลอดติด ไม่กดก็ดับ แต่ในความเป็นจริง ระบบที่ซับซ้อนมักต้องการ "ตัดสินใจ" จากเงื่อนไขหลายอย่างพร้อมกัน เช่น ประตูห้องนิรภัยจะเปิดก็ต่อเมื่อทั้งสวิตช์ A และสวิตช์ B เปิดพร้อมกันเท่านั้น หรือระบบแจ้งเตือนจะทำงานเมื่อมีอย่างน้อยหนึ่งเซนเซอร์ตรวจพบความผิดปกติ</p>
+      <p>นี่คือจุดที่แนวคิด <b>Logic Gate</b> จากวิชาวงจรดิจิทัล (Digital Logic) เข้ามาเกี่ยวข้อง — มันคือ "กฎการตัดสินใจ" ที่รับสัญญาณเข้า (input) หนึ่งหรือสองทาง แล้วให้ผลลัพธ์ (output) ตามกฎเฉพาะของมัน ในโลกคอมพิวเตอร์จริง ชิปประมวลผลทุกตัวก็ประกอบขึ้นจากเกตพื้นฐานเหล่านี้นับล้านตัวต่อกัน</p>
+    </div>
+
+    <div class="explain-block">
+      <h3>หัวใจของทุกเกต: Redstone Torch</h3>
+      <p>ในเกม Minecraft เราสร้างเกตเหล่านี้ขึ้นจากอุปกรณ์ Redstone พื้นฐานที่มีอยู่แล้ว โดยเฉพาะ <b>Redstone Torch</b> ที่มีคุณสมบัติพิเศษเฉพาะตัวคือ <code>"ดับเมื่อบล็อกที่มันติดอยู่ได้รับสัญญาณ"</code> พูดง่ายๆ คือ ถ้าไม่มีสัญญาณเข้ามา torch จะติดสว่างและปล่อยสัญญาณออกไป (ค่าเริ่มต้นคือ ON) แต่ทันทีที่มีสัญญาณมาเข้าที่บล็อกด้านหลังมัน มันจะดับทันที (กลายเป็น OFF)</p>
+      <p>พฤติกรรม "กลับด้าน" นี้ทำให้ torch หนึ่งอันทำหน้าที่เป็นเกต NOT ได้ในตัวเอง และเมื่อนำ torch หลายตัวมาต่อกันในรูปแบบต่างๆ ก็จะได้เกต AND, OR ตามมา — เกตทั้งหมดด้านล่างนี้จึงเป็นเพียงการจัดเรียง torch และสายไฟในรูปแบบที่ต่างกันเท่านั้น</p>
+    </div>
+
+    <div class="gate-grid">
+      <div class="gate-card">
+        <svg viewBox="0 0 160 100">
+          <line x1="10" y1="30" x2="42" y2="30" stroke="#8b909c" stroke-width="2"/>
+          <line x1="10" y1="70" x2="42" y2="70" stroke="#8b909c" stroke-width="2"/>
+          <path d="M42,15 L42,85 Q90,85 90,50 Q90,15 42,15 Z" fill="none" stroke="#ff3b30" stroke-width="2.5"/>
+          <line x1="90" y1="50" x2="130" y2="50" stroke="#8b909c" stroke-width="2"/>
+          <circle cx="10" cy="30" r="3" fill="#8b909c"/>
+          <circle cx="10" cy="70" r="3" fill="#8b909c"/>
+          <circle cx="130" cy="50" r="3" fill="#ff3b30"/>
+        </svg>
+        <h4>AND GATE</h4>
+        <p class="rule">ติดเมื่อ "ทั้งสอง" อินพุตเปิดพร้อมกัน</p>
+        <table class="truth-table">
+          <tr><th>A</th><th>B</th><th>out</th></tr>
+          <tr><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>0</td><td>0</td></tr>
+          <tr><td>0</td><td>1</td><td>0</td></tr>
+          <tr><td>1</td><td>1</td><td class="on">1</td></tr>
+        </table>
+        <p class="gate-note">สร้างจาก 2 Torch ต่อกัน: torch แรกดับเมื่ออินพุตใดอินพุตหนึ่งเปิด ทำให้ torch ที่สองซึ่งอ่านค่าจาก torch แรกกลับมาติด — ผลคือ output ติดก็ต่อเมื่อ <b>ทั้ง A และ B</b> เปิดพร้อมกันเท่านั้น เหมาะกับประตูที่ต้องยืนยัน 2 เงื่อนไขก่อนเปิด เช่น กุญแจ + รหัสผ่าน</p>
+      </div>
+      <div class="gate-card">
+        <svg viewBox="0 0 160 100">
+          <line x1="10" y1="30" x2="34" y2="30" stroke="#8b909c" stroke-width="2"/>
+          <line x1="10" y1="70" x2="34" y2="70" stroke="#8b909c" stroke-width="2"/>
+          <path d="M34,15 Q60,15 90,50 Q60,85 34,85 Q52,50 34,15 Z" fill="none" stroke="#ff3b30" stroke-width="2.5"/>
+          <line x1="90" y1="50" x2="130" y2="50" stroke="#8b909c" stroke-width="2"/>
+          <circle cx="10" cy="30" r="3" fill="#8b909c"/>
+          <circle cx="10" cy="70" r="3" fill="#8b909c"/>
+          <circle cx="130" cy="50" r="3" fill="#ff3b30"/>
+        </svg>
+        <h4>OR GATE</h4>
+        <p class="rule">ติดเมื่อ "อย่างน้อยหนึ่ง" อินพุตเปิด</p>
+        <table class="truth-table">
+          <tr><th>A</th><th>B</th><th>out</th></tr>
+          <tr><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>1</td><td>0</td><td class="on">1</td></tr>
+          <tr><td>0</td><td>1</td><td class="on">1</td></tr>
+          <tr><td>1</td><td>1</td><td class="on">1</td></tr>
+        </table>
+        <p class="gate-note">ทำได้ง่ายที่สุด: แค่รวมสายเรดสโตนจาก A และ B เข้าเป็นเส้นเดียวกันก่อนเข้าหลอดไฟ เพราะสัญญาณจากทางไหนก็จุดหลอดได้เหมือนกัน output จึงติดเมื่อ <b>อย่างน้อยหนึ่งฝั่ง</b> เปิด เหมาะกับสวิตช์หลายจุดที่ควบคุมไฟดวงเดียวกัน เช่น สวิตช์บันไดขึ้น-ลง</p>
+      </div>
+      <div class="gate-card">
+        <svg viewBox="0 0 160 100">
+          <line x1="10" y1="50" x2="40" y2="50" stroke="#8b909c" stroke-width="2"/>
+          <path d="M40,20 L40,80 L90,50 Z" fill="none" stroke="#ff3b30" stroke-width="2.5"/>
+          <circle cx="96" cy="50" r="6" fill="none" stroke="#ff3b30" stroke-width="2.5"/>
+          <line x1="102" y1="50" x2="130" y2="50" stroke="#8b909c" stroke-width="2"/>
+          <circle cx="10" cy="50" r="3" fill="#8b909c"/>
+          <circle cx="130" cy="50" r="3" fill="#ff3b30"/>
+        </svg>
+        <h4>NOT GATE</h4>
+        <p class="rule">อินเวิร์ตสัญญาณ — ON กลายเป็น OFF</p>
+        <table class="truth-table">
+          <tr><th>in</th><th>out</th></tr>
+          <tr><td>0</td><td class="on">1</td></tr>
+          <tr><td>1</td><td>0</td></tr>
+        </table>
+        <p class="gate-note">คือ Redstone Torch เพียงตัวเดียว วางติดกับบล็อกที่รับสัญญาณอินพุต — ปกติ torch จะติดสว่างและปล่อยสัญญาณออก (out = 1) แต่ทันทีที่บล็อกด้านหลังมันได้รับสัญญาณ (in = 1) มันจะ <b>ดับทันที</b> ทำให้ output กลายเป็น 0 ใช้สร้างประตูที่ "ปิดเมื่อกดสวิตช์" แทนที่จะเปิด</p>
+      </div>
+    </div>
+
+    <div class="explain-block" style="margin-top:36px;">
+      <h3>ต่อเกตหลายตัวเข้าด้วยกัน (Combinational Logic)</h3>
+      <p>พลังที่แท้จริงของ Logic Gate อยู่ที่การนำหลายเกตมาต่อกันเป็นห่วงโซ่ เช่น นำ output ของ <code>OR Gate</code> สองตัวไปเป็น input ของ <code>AND Gate</code> อีกตัวหนึ่ง เพื่อสร้างเงื่อนไขแบบ <code>(A หรือ B) และ (C หรือ D)</code> — ยิ่งต่อเกตมากขึ้น เงื่อนไขก็ยิ่งซับซ้อนและละเอียดขึ้นเรื่อยๆ เหมือนกับการเขียนเงื่อนไข <code>if</code> ซ้อนกันในภาษาโปรแกรมมิ่ง</p>
+      <p>ตัวอย่างที่พบบ่อยในโลกจริงของ Minecraft คือ <b>ระบบล็อกประตูสองชั้น</b>: ใช้ AND Gate ตรวจว่าเลเวอร์ทั้งสองต้องเปิดพร้อมกัน จากนั้นนำ output ไปเข้า NOT Gate อีกชั้น เพื่อทำให้ประตู "ปิดค้าง" เมื่อเงื่อนไขไม่ครบ และเปิดได้ก็ต่อเมื่อครบเงื่อนไขเท่านั้น — เป็นการผสมสามเกตพื้นฐานเข้าด้วยกันเพื่อแก้โจทย์ที่ซับซ้อนขึ้น</p>
+    </div>
+
+    <div class="explain-block">
+      <h3>เกตขั้นสูงที่ควรรู้จักไว้ (XOR / NOR)</h3>
+      <p>เมื่อคุ้นเคยกับสามเกตพื้นฐานแล้ว ยังมีเกตประกอบที่มีประโยชน์มากในการสร้างระบบซับซ้อน:</p>
+      <p><b>NOR Gate</b> (NOT + OR): ติดก็ต่อเมื่อ "ทั้งสองอินพุตปิด" เท่านั้น สร้างได้จากการเอา NOT Gate ไปต่อท้าย OR Gate ใช้ทำระบบที่ต้องการให้ทำงานเฉพาะตอน "ไม่มีอะไรกระตุ้นเลย" เช่น ไฟฉุกเฉินที่ติดเฉพาะตอนไม่มีสัญญาณไฟหลัก</p>
+      <p><b>XOR Gate</b> (Exclusive OR): ติดเมื่ออินพุต "ต่างกัน" เท่านั้น (A=1,B=0 หรือ A=0,B=1) แต่ถ้าทั้งคู่เหมือนกันจะดับ ในเกมมักสร้างจากการผสม AND, OR, NOT หลายตัวเข้าด้วยกัน ใช้ทำสวิตช์ไฟบันไดแบบ 2 จุดที่สลับสถานะกันได้ (กดจุดไหนก็ได้เพื่อสลับ ไม่ใช่แค่เปิด)</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="pagination">
+  <a href="04-triggers.html" class="page-link prev"><div class="pl-dir">ก่อนหน้า</div><div class="pl-title">04 — ตัวกระตุ้นสัญญาณ</div></a>
+  <a href="06-pulse.html" class="page-link next"><div class="pl-dir">ถัดไป</div><div class="pl-title">06 — พัลส์และจังหวะเวลา</div></a>
+</div>
+
+<footer>
+  <p>REDSTONE BASICS — MINECRAFT JAVA EDITION</p>
+</footer>
+
+</body>
+</html>

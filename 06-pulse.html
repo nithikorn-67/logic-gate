@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 พัลส์และจังหวะเวลา — Redstone Circuits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark"><span class="dot"></span>REDSTONE.CIRCUITS</a>
+  <div class="nav-links">
+    <a href="index.html"><span>00</span>หน้าแรก</a>
+    <a href="01-components.html"><span>01</span>ชิ้นส่วน</a>
+    <a href="02-signal.html"><span>02</span>สัญญาณ</a>
+    <a href="03-build.html"><span>03</span>สร้างวงจร</a>
+    <a href="04-triggers.html"><span>04</span>ตัวกระตุ้น</a>
+    <a href="05-logic.html"><span>05</span>ตรรกะ</a>
+    <a href="06-pulse.html" class="current"><span>06</span>พัลส์</a>
+    <a href="07-automation.html"><span>07</span>อัตโนมัติ</a>
+    <a href="08-summary.html"><span>08</span>สรุป</a>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="page-head-inner">
+    <div class="eyebrow">บทที่ 06 / 08</div>
+    <h1 class="title">ใส่จังหวะ: สร้าง <span class="accent">"พัลส์"</span> และควบคุมเวลา</h1>
+    <p class="hero-sub">สัญญาณสั้นๆ ที่เกิดขึ้นเพียงครั้งเดียวแล้วดับลงทันที ใช้สำหรับกระตุ้นเหตุการณ์เฉพาะจุด</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="pulse-panel">
+      <div class="pulse-info">
+        <h4>⚡ พัลส์ (Pulse) คืออะไร?</h4>
+        <p>สัญญาณสั้นๆ ที่เกิดขึ้นเพียงครั้งเดียวแล้วดับลงทันที — ไม่ใช่สัญญาณที่ค้างอยู่ตลอดเวลาแบบ Lever ใช้สำหรับกระตุ้นเหตุการณ์เฉพาะจุด เช่น การยิงดิสเพนเซอร์ครั้งเดียว หรือเปิดประตูแล้วให้ปิดเองอัตโนมัติ</p>
+        <p style="margin-top:-4px; font-family:var(--mono); font-size:11px; color:var(--muted-2); text-transform:uppercase; letter-spacing:.08em;">🔧 วิธีสร้าง</p>
+        <ul class="pulse-list">
+          <li>ใช้ <b>Redstone Torch</b> + บล็อกสร้าง Pulse Limiter</li>
+          <li>ใช้ <b>Repeater</b> ตั้งค่าดีเลย์ควบคุมความเร็ว</li>
+          <li>สร้าง <b>Clock Circuit</b> ให้พัลส์เกิดซ้ำอัตโนมัติ</li>
+        </ul>
+      </div>
+      <svg class="wave-svg" viewBox="0 0 400 180">
+        <line x1="20" y1="150" x2="380" y2="150" stroke="#2a2e38" stroke-width="1"/>
+        <line x1="20" y1="20" x2="20" y2="150" stroke="#2a2e38" stroke-width="1"/>
+        <path d="M20,150 L20,150 L60,150 L60,60 L100,60 L100,150 L180,150 L180,150 L220,150 L220,60 L260,60 L260,150 L340,150 L340,150 L380,150 L380,60"
+          fill="none" stroke="#ff3b30" stroke-width="2.5" stroke-linejoin="round"/>
+        <text x="60" y="172" fill="#5c6170" font-family="JetBrains Mono" font-size="10" text-anchor="middle">pulse 1</text>
+        <text x="240" y="172" fill="#5c6170" font-family="JetBrains Mono" font-size="10" text-anchor="middle">gap (delay)</text>
+        <text x="360" y="172" fill="#5c6170" font-family="JetBrains Mono" font-size="10" text-anchor="middle">pulse 2</text>
+      </svg>
+    </div>
+
+    <div class="explain-block" style="margin-top:28px;">
+      <h3>Pulse ต่างจากสัญญาณค้างอย่างไร</h3>
+      <p>สัญญาณจาก Lever คือ <b>ระดับสัญญาณ (level)</b> — มันบอกว่า "ตอนนี้เปิดอยู่หรือปิดอยู่" และค้างสถานะนั้นไว้ตลอดเวลา ในขณะที่พัลส์คือ <b>เหตุการณ์ (event)</b> — มันบอกว่า "มีบางอย่างเพิ่งเกิดขึ้น" แล้วก็จบไป ไม่สนใจสถานะก่อนหน้าหรือหลังจากนั้น ความแตกต่างนี้สำคัญมากเมื่อออกแบบระบบ เพราะการใช้เลเวอร์ในจุดที่ควรใช้พัลส์ (หรือกลับกัน) จะทำให้วงจรทำงานผิดเพี้ยนไปจากที่ตั้งใจ เช่น ประตูที่เปิดค้างตลอดแทนที่จะเปิดแล้วปิดเอง</p>
+    </div>
+
+    <div class="explain-block">
+      <h3>Clock Circuit: พัลส์ที่เกิดซ้ำเอง</h3>
+      <p>เมื่อนำ Repeater มาต่อกันเป็นวงปิด (loop) พร้อมตั้งค่า delay ให้เหมาะสม จะได้วงจรที่เรียกว่า <code>Clock Circuit</code> ซึ่งปล่อยพัลส์ออกมาซ้ำๆ ต่อเนื่องด้วยตัวเอง ไม่ต้องมีใครมากดสวิตช์ซ้ำ หลักการคือสัญญาณจะวิ่งวนอยู่ในวงเดิมตลอดเวลา สลับ ON/OFF ตามจังหวะที่ Repeater หน่วงไว้</p>
+      <p>Clock Circuit เป็นหัวใจของระบบอัตโนมัติที่ต้อง "ทำงานต่อเนื่องเป็นจังหวะ" เช่น ไฟกระพริบ, ลูกสูบ (Piston) ที่ดันสลับไปมา, หรือฟาร์มที่ต้องเก็บเกี่ยวเป็นรอบๆ อัตโนมัติ ซึ่งจะพูดถึงการนำไปใช้จริงในบทถัดไป</p>
+    </div>
+  </div>
+</section>
+
+<div class="pagination">
+  <a href="05-logic.html" class="page-link prev"><div class="pl-dir">ก่อนหน้า</div><div class="pl-title">05 — Logic Gate</div></a>
+  <a href="07-automation.html" class="page-link next"><div class="pl-dir">ถัดไป</div><div class="pl-title">07 — ต่อยอดสู่ระบบอัตโนมัติ</div></a>
+</div>
+
+<footer>
+  <p>REDSTONE BASICS — MINECRAFT JAVA EDITION</p>
+</footer>
+
+</body>
+</html>
